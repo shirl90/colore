@@ -1,0 +1,170 @@
+(cl-text http://colore.oor.net/hydrologicFlow/hydro_flow_participation.clif
+
+(cl-imports http://colore.oor.net/hydrologicFlow/hydro_flow.clif)
+(cl-imports http://colore.oor.net/gwml2-v2/geo_matter.clif)
+
+
+
+
+(forall (x y t)
+	(if
+		(TPC x y t)
+		(and
+			(PC x y t)
+			(HF y)
+			(PED x)
+		)
+	)
+)
+
+
+(forall (x y t)
+	(if
+		(SPC x y t)
+		(and
+			(PC x y t)
+			(HF y)
+			(PED x)
+		)
+	)
+)
+
+
+(forall (x y t)
+	(if
+		(GPC x y t)
+		(and
+			(PC x y t)
+			(HF y)
+			(PED x)
+		)
+	)
+)
+
+
+(forall (x y t)
+	(if
+		(LPC x y t)
+		(or
+			(GPC x y t)
+			(SPC x y t)
+		)
+	)
+)
+
+
+(forall (x y t)
+	(if
+		(LPC x y t)
+		(not (TPC x y t))
+	)
+)
+
+
+(forall (x y t)
+	(if
+		(LPC x y t)
+		(exists (z) 
+			(TPC z y t)
+		)
+	)
+)
+
+
+(forall (x)
+	(if
+		(HF x)
+		(exists (y t) 
+			(SPC y x t)
+		)
+	)
+)
+
+
+(forall (x)
+	(if
+		(HF x)
+		(exists (y t) 
+			(GPC y x t)
+		)
+	)
+)
+
+
+(forall (x y t1)
+	(if
+		(and
+			(HF x)
+			(SPC y x t1)
+		)
+		(exists (z t2) 
+			(and
+				(GPC z x t2)
+				(beforeEq t1 t2)
+			)
+		)
+	)
+)
+
+
+(forall (x z t2)
+	(if
+		(and
+			(HF x)
+			(GPC z x t1)
+		)
+		(exists (y t1) 
+			(and
+				(SPC y x t2)
+				(beforeEq t1 t2)
+			)
+		)
+	)
+)
+
+
+(forall (x y t)
+	(if
+		(and
+			(HF x)
+			(TPC y x t)
+		)
+		(WM y)
+	)
+)
+
+
+(forall (x y t)
+	(if
+		(and
+			(HF x)
+			(or
+				(SPC y x t)
+				(GPC y x t)
+			)
+		)
+		(or
+			(HRB y)
+			(GS y)
+			(ZOU y)
+		)
+	)
+)
+
+
+(forall (x y t2)
+	(if
+		(and
+			(HF x)
+			(TPC y x t2)
+		)
+		(exists (s t1) 
+			(and
+				(SPC s x t1)
+				(submaterialt y s t1)
+				(beforeEq t1 t2)
+			)
+		)
+	)
+)
+)

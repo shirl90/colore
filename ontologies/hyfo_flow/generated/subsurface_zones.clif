@@ -1,0 +1,82 @@
+(cl-text http://colore.oor.net/hydrologicFlow/subsurface_zones.clif
+
+(cl-imports http://colore.oor.net/hydrologicFlow/ground_surface.clif)
+
+
+
+
+(forall (z)
+	(if
+		(ZOS z)
+		(and
+			(HGU z)
+			(exists (c w)
+				(and
+					(P (r z) (r h))
+					(CSB c)
+					(submaterial c z)
+					(not (ZEX (intersection (r z) (convoidspace c))))
+					(WM w)
+					(P (intersection (r z) (convoidspace c)) (r w))
+				)
+			)
+		)
+	)
+)
+
+
+(forall (x)
+	(if
+		(SSWB x)
+		(exists (z)
+			(and
+				(ZOS z)
+				(P (r x) (r z))
+			)
+		)
+	)
+)
+
+
+(forall (x z)
+	(if
+		(and
+			(CB x)
+			(ZOX z)
+		)
+		(not (PO (r x) (r z)))
+	)
+)
+
+
+(forall (z)
+	(if
+		(ZOU z)
+		(and
+			(GU z)
+			(P (r z) (r h))
+			(exists (y)
+				(if
+					(ZOS y)
+					(not (PO (r z) (r y)))
+				)
+			)
+		)
+	)
+)
+
+
+(forall (x z)
+	(if
+		(and
+			(GS x)
+			(or
+				(ZOS z)
+				(ZOU z)
+			)
+		)
+		(not (PO (r x) (r z)))
+	)
+)
+)
+

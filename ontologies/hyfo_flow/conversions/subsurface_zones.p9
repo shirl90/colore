@@ -1,0 +1,8 @@
+formulas(sos).
+% cl-imports hydrologicFlow/ground_surface.clif
+( all x12 ( (zos(x12)) -> ((hgu(x12) & ( exists x11 exists x13 (p(r(x12), r(h)) & csb(x11) & submaterial(x11, x12) & - (zex(intersection(r(x12), convoidspace(x11)))) & wm(x13) & p(intersection(r(x12), convoidspace(x11)), r(x13)))) )) )) .
+( all x21 ( (sswb(x21)) -> (( exists x22 (zos(x22) & p(r(x21), r(x22)))) ) )) .
+( all x31 all x32 ( ((cb(x31) & zox(x32))) -> (- (po(r(x31), r(x32)))) )) .
+( all x42 ( (zou(x42)) -> ((gu(x42) & p(r(x42), r(h)) & ( exists x41 ( (zos(x41)) -> (- (po(r(x42), r(x41)))) )) )) )) .
+( all x51 all x52 ( ((gs(x51) & (zos(x52) | zou(x52)))) -> (- (po(r(x51), r(x52)))) )) .
+end_of_list.

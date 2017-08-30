@@ -1,0 +1,17 @@
+formulas(sos).
+% cl-imports hydrologicFlow/hydro_flow.clif
+% cl-imports gwml2-v2/geo_matter.clif
+( all x12 all x11 all x13 ( (tpc(x12, x11, x13)) -> ((pc(x12, x11, x13) & hf(x11) & ped(x12))) )) .
+( all x22 all x21 all x23 ( (spc(x22, x21, x23)) -> ((pc(x22, x21, x23) & hf(x21) & ped(x22))) )) .
+( all x32 all x31 all x33 ( (gpc(x32, x31, x33)) -> ((pc(x32, x31, x33) & hf(x31) & ped(x32))) )) .
+( all x42 all x41 all x43 ( (lpc(x42, x41, x43)) -> ((gpc(x42, x41, x43) | spc(x42, x41, x43))) )) .
+( all x52 all x51 all x53 ( (lpc(x52, x51, x53)) -> (- (tpc(x52, x51, x53))) )) .
+( all x62 all x61 all x64 ( (lpc(x62, x61, x64)) -> (( exists x63 tpc(x63, x61, x64)) ) )) .
+( all x72 ( (hf(x72)) -> (( exists x71 exists x73 spc(x71, x72, x73)) ) )) .
+( all x82 ( (hf(x82)) -> (( exists x81 exists x83 gpc(x81, x82, x83)) ) )) .
+( all x92 all x91 all x95 ( ((hf(x92) & spc(x91, x92, x95))) -> (( exists x93 exists x94 (gpc(x93, x92, x94) & beforeeq(x95, x94))) ) )) .
+( all x102 all x103 all x104 ( ((hf(x102) & gpc(x103, x102, x105))) -> (( exists x101 exists x105 (spc(x101, x102, x104) & beforeeq(x105, x104))) ) )) .
+( all x112 all x111 all x113 ( ((hf(x112) & tpc(x111, x112, x113))) -> (wm(x111)) )) .
+( all x122 all x121 all x123 ( ((hf(x122) & (spc(x121, x122, x123) | gpc(x121, x122, x123)))) -> ((hrb(x121) | gs(x121) | zou(x121))) )) .
+( all x132 all x131 all x134 ( ((hf(x132) & tpc(x131, x132, x134))) -> (( exists x133 exists x135 (spc(x133, x132, x135) & submaterialt(x131, x133, x135) & beforeeq(x135, x134))) ) )) .
+end_of_list.

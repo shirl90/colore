@@ -1,0 +1,5 @@
+formulas(sos).
+% cl-imports gwml2-v2/geo_geologicunit.clif
+% cl-imports multidim_space_ped/ped.clif
+( all x12 ( (gs(x12)) -> ((rpf(x12) & ( exists x11 (gu(x11) & hosts(x11, x12))) )) )) .
+end_of_list.

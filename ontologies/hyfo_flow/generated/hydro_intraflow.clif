@@ -1,0 +1,214 @@
+(cl-text http://colore.oor.net/hydrologicFlow/hydro_intraflow.clif
+
+(cl-imports http://colore.oor.net/hydrologicFlow/hydro_flow.clif)
+(cl-imports http://colore.oor.net/hydrologicFlow/hydro_flow_participation.clif)
+(cl-imports http://colore.oor.net/hydrologicFlow/subsurface_zones.clif)
+
+
+
+(forall (x)
+	(if
+		(intraflow x)
+		(and
+			(HF x)
+			(exists (y t)
+				(and
+					(SPC y x t)
+					(GPC y x t)
+				)
+			)
+		)
+	)
+)
+
+
+(forall (x y z t)
+	(if
+		(and
+			(intraflow x)
+			(TPC y x t)
+			(LPC z x t)
+		)
+		(submaterial y z t)
+	)
+)
+
+
+(forall (x)
+	(if
+		(surfaceintraflow x)
+		(intraflow x)
+	)
+)
+
+
+(forall (x y t)
+	(if
+		(and
+			(surfaceintraflow x)
+			(LPC y x t)
+		)
+		(or
+			(HU y)
+			(GS y)
+		)
+	)
+)
+
+
+(forall (x)
+	(if
+		(subsurfaceintraflow x)
+		(intraflow x)
+	)
+)
+
+
+(forall (x y t)
+	(if
+		(and
+			(subsurfaceintraflow x)
+			(LPC y x t)
+		)
+		(or
+			(HGU y)
+			(ZOS y)
+			(ZOU y)
+		)
+	)
+)
+
+
+(forall (x)
+	(iff
+		(intraflow x)
+		(or
+			(not (subsurfaceintraflow x))
+			(not (subsurfaceintraflow x))
+		)
+	)
+)
+
+
+(forall (x)
+	(if
+		(overflow x)
+		(surfaceintraflow x)
+	)
+)
+
+
+(forall (x y t)
+	(if
+		(and
+			(overflow x)
+			(LPC y x t)
+		)
+		(GS y)
+	)
+)
+
+
+(forall (x)
+	(if
+		(surfacewithinflow x)
+		(surfaceintraflow x)
+	)
+)
+
+
+(forall (x y t)
+	(if
+		(and
+			(surfacewithinflow x)
+			(LPC y x t)
+		)
+		(HU y)
+	)
+)
+
+
+(forall (x)
+	(if
+		(subsurfacewithinflow x)
+		(subsurfaceintraflow x)
+	)
+)
+
+
+(forall (x y t)
+	(if
+		(and
+			(subsurfacewithinflow x)
+			(LPC y x t)
+		)
+		(HGU y)
+	)
+)
+
+
+(forall (x)
+	(iff
+		(surfaceintraflow x)
+		(or
+			(overflow x)
+			(surfacewithinflow x)
+		)
+	)
+)
+
+
+(forall (x)
+	(or
+		(not (overflow x))
+		(not (surfacewithinflow x))
+	)
+)
+
+
+(forall (x)
+	(if
+		(throughflow x)
+		(subsurfaceintraflow x)
+	)
+)
+
+
+(forall (x y t)
+	(if
+		(and
+			(throughflow x)
+			(LPC y x t)
+		)
+		(and
+			(ZOU y)
+			(exists (z)
+				(and
+					(GU z)
+					(not (ZEX (intersection (r y) (convoidspace z))))
+				)
+			)
+		)
+	)
+)
+
+
+(forall (x)
+	(iff
+		(subsurfaceintraflow x)
+		(or
+			(throughflow x)
+			(subsurfacewithinflow x)
+		)
+	)
+)
+
+
+(forall (x)
+	(or
+		(not (throughflow x))
+		(not (subsurfacewithinflow x))
+	)
+)
+
+)
